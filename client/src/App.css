@@ -1,0 +1,19 @@
+.arithmetics {
+  margin-top: 5px;
+  background-color: rgb(255, 255, 255);
+  color: white;
+  display: flex;
+}
+
+.card {
+  flex: 1 1 0px;
+  object-fit: cover;
+}
+
+.card + .card {
+  margin-left: 2%;
+}
+
+.btn-practice{
+    margin-top: 5px;
+}
