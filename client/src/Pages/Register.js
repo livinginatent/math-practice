@@ -10,6 +10,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useState } from "react";
 
 function Copyright(props) {
   return (
@@ -32,14 +33,24 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUp() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+  const { username, email, password } = formData;
+
+  const onChange = (e) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
   };
+
+  const onSubmit = (e) => {
+    e.preventDefault()
+  }
+  
 
   return (
     <ThemeProvider theme={theme}>
@@ -59,42 +70,32 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 3 }}
-          >
+          <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <TextField
                   autoComplete="given-name"
-                  name="firstName"
+                  name="username"
                   required
                   fullWidth
-                  id="firstName"
-                  label="First Name"
+                  id="username"
+                  value={username}
+                  label="Username"
                   autoFocus
+                  onChange={onChange}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
-                />
-              </Grid>
+
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
                   id="email"
+                  value={email}
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  onChange={onChange}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -105,11 +106,12 @@ export default function SignUp() {
                   label="Password"
                   type="password"
                   id="password"
+                  value={password}
                   autoComplete="new-password"
+                  onChange={onChange}
                 />
               </Grid>
-              <Grid item xs={12}>
-              </Grid>
+              <Grid item xs={12}></Grid>
             </Grid>
             <Button
               type="submit"
