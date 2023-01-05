@@ -10,7 +10,11 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { register, reset } from "../features/auth/authSlice";
 
 function Copyright(props) {
   return (
@@ -37,8 +41,28 @@ export default function SignUp() {
     username: "",
     email: "",
     password: "",
+    password2: "",
   });
-  const { username, email, password } = formData;
+  const { username, email, password, password2 } = formData;
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+
+    if (isSuccess || user) {
+      navigate("/");
+    }
+
+    dispatch(reset());
+  }, [user, isError, isSuccess, message, navigate, dispatch]);
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -48,9 +72,18 @@ export default function SignUp() {
   };
 
   const onSubmit = (e) => {
-    e.preventDefault()
-  }
-  
+    e.preventDefault();
+    if (password !== password2) {
+      toast.error("Passwords do not match");
+    } else {
+      const userData = {
+        username,
+        email,
+        password,
+      };
+      dispatch(register(userData));
+    }
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -107,6 +140,19 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   value={password}
+                  autoComplete="new-password"
+                  onChange={onChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="password2"
+                  label="Re-enter password"
+                  type="password"
+                  id="password2"
+                  value={password2}
                   autoComplete="new-password"
                   onChange={onChange}
                 />
