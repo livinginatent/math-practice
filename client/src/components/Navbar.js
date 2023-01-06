@@ -19,7 +19,7 @@ export default function Navbar() {
   const onClick = () => {
     dispatch(logout())
     dispatch(reset())
-    navigate('/login')
+    navigate('/')
   }
 
   

@@ -12,7 +12,11 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { login, reset } from "../features/auth/authSlice";
 
 function Copyright(props) {
   return (
@@ -35,23 +39,46 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignIn() {
-const [formData, setFormData] = useState({
-  
-  email: "",
-  password: "",
-});
-const { email, password } = formData;
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const { email, password } = formData;
 
-const onChange = (e) => {
-  setFormData((prevState) => ({
-    ...prevState,
-    [e.target.name]: e.target.value,
-  }));
-};
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-const onSubmit = (e) => {
-  e.preventDefault();
-};
+  const { user, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+
+    if (isSuccess || user) {
+      navigate("/");
+    }
+
+    dispatch(reset());
+  }, [user, isError, isSuccess, message, navigate, dispatch]);
+
+  const onChange = (e) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+          const userData = {
+            email,
+            password,
+          };
+          dispatch(login(userData));
+  };
 
   return (
     <ThemeProvider theme={theme}>
