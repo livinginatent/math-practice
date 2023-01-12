@@ -68,7 +68,9 @@ export default function SignUp() {
     setFormData((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
+      
     }));
+    
   };
 
   const onSubmit = (e) => {
