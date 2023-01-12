@@ -12,19 +12,23 @@ const AdditionMain = () => {
 
   const [isSubmit, setIsSubmit] = useState(false);
   const [disabled, setDisabled] = useState(false);
+  const [newNumbers, setNewNumbers] = useState(false);
+ 
 
-  const randomNum1 = () => {
-    let number1 = Math.floor(Math.random() * 50);
+ const randomNum1 = () => {
+   let number1 = Math.floor(Math.random() * 50);
 
-    return number1;
-  };
-  const randomNum2 = () => {
-    let number2 = Math.floor(Math.random() * 50);
-    return number2;
-  };
-  const number1 = useMemo(() => randomNum1(), []);
-  const number2 = useMemo(() => randomNum2(), []);
-  const result = number1 + number2;
+   return number1;
+ };
+ const randomNum2 = () => {
+   let number2 = Math.floor(Math.random() * 50);
+   return number2;
+ };
+ const number1 = useMemo(() => randomNum1(), [newNumbers]);
+ const number2 = useMemo(() => randomNum2(), [newNumbers]);
+ const result = number1 + number2;
+
+  
 
   const correctAnswer = <Typography>Correct!</Typography>;
   const wrongAnswer = <Typography>Wrong!</Typography>;
@@ -33,15 +37,22 @@ const AdditionMain = () => {
   const onNewTry = () => {
     setIsSubmit(false);
     setDisabled(false);
+    setSum("");
+    setNewNumbers(true);
   };
+
+  const onTryAgain = () => {
+    setIsSubmit(false);
+    setSum("");
+  }
 
   const onSubmit = (e) => {
     e.preventDefault();
     setIsSubmit(true);
     if (sum === result) {
       setDisabled(!disabled);
-    } else if(sum===''){
       
+    } else if (sum === "") {
     }
   };
 
@@ -116,8 +127,9 @@ const AdditionMain = () => {
             : ""}
           {isSubmit && sum !== "" && sum !== result ? (
             <Button
+              onClick={onTryAgain}
               type="button"
-              onClick={onSubmit}
+              
               sx={{ marginTop: 1 }}
               variant="outlined"
             >
