@@ -12,6 +12,7 @@ const AdditionMain = () => {
 
   const [isSubmit, setIsSubmit] = useState(false);
   const [disabled, setDisabled] = useState(false);
+
   const randomNum1 = () => {
     let number1 = Math.floor(Math.random() * 50);
 
@@ -29,12 +30,19 @@ const AdditionMain = () => {
   const wrongAnswer = <Typography>Wrong!</Typography>;
   const enterAnswer = <Typography>Enter your answer!</Typography>;
 
+  const onNewTry = () => {
+    setIsSubmit(false);
+    setDisabled(false);
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
     setIsSubmit(true);
     if (sum === result) {
       setDisabled(!disabled);
-    } 
+    } else if(sum===''){
+      
+    }
   };
 
   return (
@@ -64,10 +72,12 @@ const AdditionMain = () => {
           <Typography fontSize={28}>
             {number1} + {number2} =
           </Typography>
-
           <TextField
             inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
-            onChange={(e) => setSum(parseInt(e.target.value))}
+            onChange={(e) => {
+              setSum(parseInt(e.target.value));
+              setIsSubmit(false);
+            }}
             disabled={disabled}
             type="number"
             value={sum}
@@ -76,7 +86,6 @@ const AdditionMain = () => {
             label=""
             variant="outlined"
           ></TextField>
-
           {!isSubmit ? (
             <Button
               type="button"
@@ -95,7 +104,17 @@ const AdditionMain = () => {
             >
               Submit
             </Button>
-          ) : isSubmit && sum !== result ? (
+          ) : (
+            () => {}
+          )}
+          {isSubmit && sum === ""
+            ? enterAnswer
+            : isSubmit && sum !== result
+            ? wrongAnswer
+            : isSubmit && sum === result
+            ? correctAnswer
+            : ""}
+          {isSubmit && sum !== "" && sum !== result ? (
             <Button
               type="button"
               onClick={onSubmit}
@@ -107,15 +126,18 @@ const AdditionMain = () => {
           ) : (
             () => {}
           )}
-
-          {isSubmit && sum === ""
-            ? enterAnswer
-            : isSubmit && sum !== result
-            ? wrongAnswer
-            : isSubmit && sum === result
-            ? correctAnswer
-            : ""}
-          {isSubmit && sum === result ? <Button>Try new one</Button> : () => {}}
+          {isSubmit && sum === result ? (
+            <Button
+              onClick={onNewTry}
+              type="button"
+              sx={{ marginTop: 1 }}
+              variant="outlined"
+            >
+              Try new one
+            </Button>
+          ) : (
+            () => {}
+          )}
         </Box>
       </Container>
     </>
