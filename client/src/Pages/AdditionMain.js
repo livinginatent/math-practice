@@ -1,59 +1,75 @@
 import { TextField, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import Button from "@mui/material/Button";
-import { useState, useMemo } from "react";
+import { useState } from "react";
+
+const correctAnswer = <Typography>Correct!</Typography>;
+const wrongAnswer = <Typography>Wrong!</Typography>;
+const enterAnswer = <Typography>Enter your answer!</Typography>;
+
+const randomNum1 = () => {
+  return Math.floor(Math.random() * 50);
+};
+
+const randomNum2 = () => {
+  return Math.floor(Math.random() * 50);
+};
+
+const generateNumbersAndResults = () => {
+  const number1 = randomNum1() || 0;
+  const number2 = randomNum2() || 0;
+
+  const result = number1 + number2 || 0;
+
+  return {
+    number1,
+    number2,
+    result,
+  };
+};
 
 const AdditionMain = () => {
-  const [sum, setSum] = useState("");
+  const [enteredValue, setEnteredValue] = useState("");
+  const [correctValue, setCorrectValue] = useState(false);
+  const [calculatedNums, setCalculatedNums] = useState({});
+  const [isIncorrect, setIsIncorrect] = useState(false);
+  const [generateNewNumbers, setGenerateNewNumbers] = useState(false);
+  const [haveToEnterAnswer, setHaveToEnterAnswer] = useState(false);
 
-  const [isSubmit, setIsSubmit] = useState(false);
-  const [disabled, setDisabled] = useState(false);
-  const [newNumbers, setNewNumbers] = useState(false);
- 
 
- const randomNum1 = () => {
-   let number1 = Math.floor(Math.random() * 50);
+  useEffect(() => {
+    setCalculatedNums(generateNumbersAndResults());
+    setGenerateNewNumbers(false);
+    setCorrectValue(false);
+    setEnteredValue("");
+  }, [generateNewNumbers]);
 
-   return number1;
- };
- const randomNum2 = () => {
-   let number2 = Math.floor(Math.random() * 50);
-   return number2;
- };
- const number1 = useMemo(() => randomNum1(), [newNumbers]);
- const number2 = useMemo(() => randomNum2(), [newNumbers]);
- const result = number1 + number2;
+  const submitHandler = () => {
+    if (correctValue) {
+      setGenerateNewNumbers(true);
+    }
 
-  
-
-  const correctAnswer = <Typography>Correct!</Typography>;
-  const wrongAnswer = <Typography>Wrong!</Typography>;
-  const enterAnswer = <Typography>Enter your answer!</Typography>;
-
-  const onNewTry = () => {
-    setIsSubmit(false);
-    setDisabled(false);
-    setSum("");
-    setNewNumbers(true);
+    if (+enteredValue === calculatedNums.result) {
+      setCorrectValue(true);
+    } else if (enteredValue.length === 0) {
+      setHaveToEnterAnswer(true);
+    } else {
+      setIsIncorrect(true);
+    }
   };
 
-  const onTryAgain = () => {
-    setIsSubmit(false);
-    setSum("");
-  }
+  const inputValueHandler = (value) => {
+    setIsIncorrect(false);
+    setHaveToEnterAnswer(false);
+    setEnteredValue(value);
+  };
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    setIsSubmit(true);
-    if (sum === result) {
-      setDisabled(!disabled);
-      
-    } else if (sum === "") {
-    }
+  const submitOrTryNewOne = () => {
+    return correctValue ? "Try new one" : "Submit";
   };
 
   return (
@@ -81,75 +97,34 @@ const AdditionMain = () => {
         >
           <Typography>Fill in the box to make the equation true.</Typography>
           <Typography fontSize={28}>
-            {number1} + {number2} =
+            {calculatedNums.number1} + {calculatedNums.number2} =
           </Typography>
           <TextField
             inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
-            onChange={(e) => {
-              setSum(parseInt(e.target.value));
-              setIsSubmit(false);
-            }}
-            disabled={disabled}
             type="number"
-            value={sum}
             name="sum"
             id="outlined-basic"
             label=""
             variant="outlined"
+            onChange={(event) => {
+              inputValueHandler(event.target.value);
+            }}
+            disabled={correctValue}
+            value={enteredValue}
           ></TextField>
-          {!isSubmit ? (
-            <Button
-              type="button"
-              onClick={onSubmit}
-              sx={{ marginTop: 1 }}
-              variant="outlined"
-            >
-              Submit
-            </Button>
-          ) : isSubmit && sum === "" ? (
-            <Button
-              type="button"
-              onClick={onSubmit}
-              sx={{ marginTop: 1 }}
-              variant="outlined"
-            >
-              Submit
-            </Button>
-          ) : (
-            () => {}
-          )}
-          {isSubmit && sum === ""
-            ? enterAnswer
-            : isSubmit && sum !== result
-            ? wrongAnswer
-            : isSubmit && sum === result
-            ? correctAnswer
-            : ""}
-          {isSubmit && sum !== "" && sum !== result ? (
-            <Button
-              onClick={onTryAgain}
-              type="button"
-              
-              sx={{ marginTop: 1 }}
-              variant="outlined"
-            >
-              Try again!
-            </Button>
-          ) : (
-            () => {}
-          )}
-          {isSubmit && sum === result ? (
-            <Button
-              onClick={onNewTry}
-              type="button"
-              sx={{ marginTop: 1 }}
-              variant="outlined"
-            >
-              Try new one
-            </Button>
-          ) : (
-            () => {}
-          )}
+​
+          {haveToEnterAnswer && enterAnswer}
+          {correctValue && correctAnswer}
+          {isIncorrect && wrongAnswer}
+​
+          <Button
+            type="button"
+            sx={{ marginTop: 1 }}
+            onClick={() => submitHandler()}
+            variant="outlined"
+          >
+            {isIncorrect ? "Try again!" : submitOrTryNewOne()}
+          </Button>
         </Box>
       </Container>
     </>
