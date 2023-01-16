@@ -1,9 +1,16 @@
-import React from 'react'
+import React from "react";
+import MainInput from "../components/MainInput";
+import { generateNumbersAndResults } from "../MainArithmetics";
 
 const SubtractionMain = () => {
-  return (
-    <div>SubtractionMain</div>
-  )
-}
+  const operation = "-";
+  const calculation = generateNumbersAndResults().subtraction;
 
-export default SubtractionMain
+  return (
+    <>
+      <MainInput operation={operation} calculation={calculation} />
+    </>
+  );
+};
+
+export default SubtractionMain;
