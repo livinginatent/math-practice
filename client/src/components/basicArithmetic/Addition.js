@@ -13,6 +13,7 @@ const Addition = () => {
   const handleClick = () => {
     navigate("addition-practice");
   };
+
   return (
     <div className="card">
       <Card sx={{ maxWidth: 345 }}>

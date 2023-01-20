@@ -9,15 +9,10 @@ import Register from "./Pages/Register";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
-
-
+import FreeOrChallenge from "./components/FreeOrChallenge";
 
 function App() {
-   
-
   return (
-    
     <>
       <div className="App">
         <BrowserRouter>
@@ -35,9 +30,10 @@ function App() {
             <Route path="/division-practice/" element={<DivisionMain />} />
             <Route path="/login/" element={<Login />} />
             <Route path="/register/" element={<Register />} />
+            <Route path="/prac-challenge/" element={<FreeOrChallenge />} />
           </Routes>
         </BrowserRouter>
-        <ToastContainer/>
+        <ToastContainer />
       </div>
     </>
   );

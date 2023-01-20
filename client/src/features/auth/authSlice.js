@@ -8,6 +8,7 @@ const initialState = {
   isError: false,
   isSuccess: false,
   message: "",
+  
 };
 
 // Register user
