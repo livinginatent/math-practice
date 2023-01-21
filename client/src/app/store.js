@@ -6,7 +6,6 @@ import gameReducer from "../features/gameSlice";
 export const store = configureStore({
   reducer: {
     auth: authReducer,
-    lives: livesReducer,
     game:gameReducer,
   },
 });

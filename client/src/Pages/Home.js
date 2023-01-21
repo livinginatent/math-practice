@@ -6,11 +6,25 @@ import Subtraction from "../components/basicArithmetic/Subtraction";
 import Navbar from "../components/Navbar";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import {
+  useNavigate,
+  useNavigationType,
+  NavigationType,
+} from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { restart } from "../features/gameSlice";
 
 const Home = () => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
+  const navigationType = useNavigationType();
+  const dispatch = useDispatch()
+
+useEffect(()=>{
+  if(navigationType === NavigationType.Pop){
+    dispatch(restart())
+  }
+})
 
   useEffect(() => {
     if (!user) {
