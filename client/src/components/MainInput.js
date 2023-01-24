@@ -1,5 +1,5 @@
 import { Divider, List, TextField, Typography } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import Navbar from "../components/Navbar";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
@@ -10,13 +10,14 @@ import GameInfo from "./GameInfo";
 import { useSelector, useDispatch } from "react-redux";
 
 import {
+  earnLife,
   gainPoints,
   gainTime,
   loseLife,
   loseTime,
   restart,
 } from "../features/gameSlice";
-import { height } from "@mui/system";
+
 
 const correctAnswer = <Typography>Correct!</Typography>;
 const wrongAnswer = <Typography>Wrong!</Typography>;
@@ -29,14 +30,23 @@ const MainInput = ({ operation, calculation }) => {
   const [isIncorrect, setIsIncorrect] = useState(false);
   const [generateNewNumbers, setGenerateNewNumbers] = useState(false);
   const [haveToEnterAnswer, setHaveToEnterAnswer] = useState(false);
+  const [streak, setStreak] = useState(0)
+
 
   // FIX THE UNDEFINED ISSUE
 
   // FIX THE UNDEFINED ISSUE
 
   // FIX THE UNDEFINED ISSUE
+
+  useEffect(()=>{
+     if (correctValue && streak === 4) {
+       dispatch(earnLife());
+     }
+  },[streak])
 
   useEffect(() => {
+    
     setCalculatedNums(calculation());
     setGenerateNewNumbers(false);
     setCorrectValue(false);
@@ -78,7 +88,10 @@ const MainInput = ({ operation, calculation }) => {
       setGenerateNewNumbers(true);
       dispatch(gainPoints());
       dispatch(gainTime());
+      setStreak(streak + 1)
+
     }
+   
 
     if (+enteredValue === calculatedNums.result) {
       setCorrectValue(true);
@@ -87,6 +100,7 @@ const MainInput = ({ operation, calculation }) => {
     } else {
       setIsIncorrect(true);
       dispatch(loseLife());
+      setStreak(0)
     }
   };
 
@@ -102,8 +116,8 @@ const MainInput = ({ operation, calculation }) => {
 
   return (
     <>
-      {calculatedNums.number1 === undefined && console.log([calculatedNums])}
       <Navbar />
+      {console.log(streak)}
       {seconds && lives > 0 ? (
         <>
           <GameInfo></GameInfo>
