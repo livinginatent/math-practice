@@ -1,15 +1,22 @@
-import { TextField, Typography } from "@mui/material";
-import React, { useEffect, useRef } from "react";
+import { Divider, List, TextField, Typography } from "@mui/material";
+import React, { useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { useState } from "react";
-import Beginning from "./Beginning";
+
+import GameInfo from "./GameInfo";
 import { useSelector, useDispatch } from "react-redux";
-import Lives from "./Lives";
-import { finish, gainPoints, gainTime, loseLife, loseTime, restart } from "../features/gameSlice";
-import Seconds from "./Seconds";
+
+import {
+  gainPoints,
+  gainTime,
+  loseLife,
+  loseTime,
+  restart,
+} from "../features/gameSlice";
+import { height } from "@mui/system";
 
 const correctAnswer = <Typography>Correct!</Typography>;
 const wrongAnswer = <Typography>Wrong!</Typography>;
@@ -23,35 +30,11 @@ const MainInput = ({ operation, calculation }) => {
   const [generateNewNumbers, setGenerateNewNumbers] = useState(false);
   const [haveToEnterAnswer, setHaveToEnterAnswer] = useState(false);
 
-  const dispatch = useDispatch();
-  const gameStart = useSelector((state) => state.game.isStarted);
-  const seconds = useSelector((state) => state.game.seconds);
-  const points = useSelector((state) => state.game.points);
-  const isFinished = useSelector((state) => state.game.isFinished);
+  // FIX THE UNDEFINED ISSUE
 
-  const newChallenge = () => {
-    dispatch(restart())
-  };
+  // FIX THE UNDEFINED ISSUE
 
-  const handleCount = () => {
-    dispatch(loseTime());
-  };
-
-  useEffect(() => {
-    let interval;
-    if (seconds === 0) {
-      dispatch(finish());
-    }
-    if (gameStart && seconds > 0) {
-      interval = setInterval(() => {
-        handleCount();
-      }, 1000);
-    }
-
-    return function cleanUp() {
-      clearInterval(interval);
-    };
-  }, [gameStart, seconds]);
+  // FIX THE UNDEFINED ISSUE
 
   useEffect(() => {
     setCalculatedNums(calculation());
@@ -60,11 +43,41 @@ const MainInput = ({ operation, calculation }) => {
     setEnteredValue("");
   }, [generateNewNumbers]);
 
+  const dispatch = useDispatch();
+
+  const seconds = useSelector((state) => state.game.seconds);
+  const points = useSelector((state) => state.game.points);
+  const lives = useSelector((state) => state.game.lives);
+
+  const timerValid = seconds > 0;
+
+  const newChallenge = () => {
+    setIsIncorrect(false);
+    setHaveToEnterAnswer(false);
+    dispatch(restart());
+  };
+
+  const handleCount = () => {
+    dispatch(loseTime());
+  };
+
+  useEffect(() => {
+    let interval;
+    if (timerValid) {
+      interval = setInterval(() => {
+        handleCount();
+      }, 1000);
+    }
+    return () => {
+      clearInterval(interval);
+    };
+  }, [timerValid]);
+
   const submitHandler = () => {
     if (correctValue) {
       setGenerateNewNumbers(true);
-      dispatch(gainPoints())
-      dispatch(gainTime())
+      dispatch(gainPoints());
+      dispatch(gainTime());
     }
 
     if (+enteredValue === calculatedNums.result) {
@@ -89,14 +102,11 @@ const MainInput = ({ operation, calculation }) => {
 
   return (
     <>
+      {calculatedNums.number1 === undefined && console.log([calculatedNums])}
       <Navbar />
-
-      {!gameStart ? (
-        <Beginning />
-      ) : gameStart && seconds > 0 ?(
+      {seconds && lives > 0 ? (
         <>
-          <Lives></Lives>
-          <Seconds></Seconds>
+          <GameInfo></GameInfo>
           <Container component="main" maxWidth="xs">
             <Box
               sx={{
@@ -109,12 +119,14 @@ const MainInput = ({ operation, calculation }) => {
               <Typography>
                 Fill in the box to make the equation true.
               </Typography>
+
               <Typography fontSize={28}>
                 {operation !== "/"
                   ? `${calculatedNums.number1} ${operation} ${calculatedNums.number2}`
                   : `${calculatedNums.number2} ${operation} ${calculatedNums.number1}`}{" "}
                 =
               </Typography>
+
               <TextField
                 inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
                 type="number"
@@ -125,7 +137,7 @@ const MainInput = ({ operation, calculation }) => {
                 onChange={(event) => {
                   inputValueHandler(event.target.value);
                 }}
-                disabled={correctValue && seconds === 0}
+                disabled={correctValue}
                 value={enteredValue}
               ></TextField>
               {haveToEnterAnswer && enterAnswer}
@@ -140,15 +152,34 @@ const MainInput = ({ operation, calculation }) => {
               >
                 {isIncorrect ? "Try again!" : submitOrTryNewOne()}
               </Button>
-              {/* {seconds===0 ? (<Button onClick={newChallenge} >You lost! New Challenge</Button>) : (()=>{})} */}
             </Box>
           </Container>
         </>
       ) : (
         <>
-        <Typography>GAME OVER</Typography>
-        <Typography>Final Score: {points}</Typography>
-        <Button onClick={newChallenge} >New Challenge</Button>
+          <List
+            sx={{
+              marginTop: 8,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Typography fontSize={28}>GAME OVER</Typography>
+            <Divider></Divider>
+            <Typography sx={{ marginTop: 2 }} fontSize={28}>
+              Final Score: {points}
+            </Typography>
+            <Divider></Divider>
+            <Button
+              sx={{ marginTop: 2 }}
+              variant="contained"
+              size="large"
+              onClick={newChallenge}
+            >
+              New Challenge
+            </Button>
+          </List>
         </>
       )}
     </>

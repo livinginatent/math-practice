@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { Box } from "@mui/system";
+import { Typography } from "@mui/material";
 
 
 function Lives() {
@@ -13,10 +14,10 @@ function Lives() {
 
   if (lives < 5) {
     for (let i = 0; i < lives; i++) {
-      hearts.push(<FavoriteIcon key={i} />);
+      hearts.push(<FavoriteIcon fontSize="large" key={i} />);
     }
   } else {
-    hearts.push(<FavoriteIcon key={lives} />);
+    hearts.push(<FavoriteIcon size='large' key={lives} />);
   }
  
 

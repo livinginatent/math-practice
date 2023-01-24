@@ -35,6 +35,7 @@ useEffect(()=>{
   return (
     <>
       <Navbar />
+      
       <div className="arithmetics">
         <Addition />
         <Subtraction />

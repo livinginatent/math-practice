@@ -3,9 +3,10 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     points:0,
     lives:3,
-    seconds:25,
-    isFinished:false,
-    isStarted:false
+    seconds:20,
+    newGame:false,
+    isStarted:false,
+    isFinished:false
 
 }
 
@@ -32,20 +33,21 @@ export const gameSlice = createSlice({
             state.isStarted = true
             
         },
-        finish:(state)=>{
-            state.isFinished = false
+        isFinished:(state)=>{
+            state.isFinished = true
             
         },
         restart:(state)=>{
             state.points=0
+            state.newGame = false
             state.lives=3
-            state.seconds=25
+            state.seconds=20
             state.isStarted=false
             
         },
     }
 })
 
-export const {gainPoints, gainTime,loseTime,earnLife,loseLife,start,finish,restart} = gameSlice.actions
+export const {gainPoints, gainTime,loseTime,earnLife,loseLife,start,isFinished,restart} = gameSlice.actions
 
 export default gameSlice.reducer

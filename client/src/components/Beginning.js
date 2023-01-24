@@ -1,3 +1,5 @@
+import {  Typography } from "@mui/material";
+
 import React, { useRef, useState } from "react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -6,6 +8,8 @@ import { start } from "../features/gameSlice";
 function Beginning() {
   const [count, setCount] = useState(3);
   const [message, setMessage] = useState("");
+
+  
 
   const dispatch = useDispatch();
   const countRef = useRef(count);
@@ -27,9 +31,11 @@ function Beginning() {
       handleCount();
     }, 1000);
 
-    if (message === "GO") {
+    if (message==='GO') {
       setTimeout(() => {
         dispatch(start());
+        
+        
       }, 1000);
     }
     return () => clearInterval(interval);
@@ -37,12 +43,10 @@ function Beginning() {
 
   return (
     <>
-      <div>
-        <h3>GET READY...</h3>
+      <Typography variant="h1" fontStyle={'Poppins'} fontSize={36}>GET READY...</Typography>
 
-        <h1>{count}</h1>
-        <h1>{message}</h1>
-      </div>
+      <Typography fontSize={48} >{count}</Typography>
+      <Typography fontSize={60} >{message}</Typography>
     </>
   );
 }

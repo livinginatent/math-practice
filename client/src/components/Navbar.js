@@ -42,9 +42,9 @@ export default function Navbar() {
           </Typography>
 
           {user ? (
-            
-              <Button onClick={onClick} color="inherit">Logout</Button>
-            
+            <Button onClick={onClick} color="inherit">
+              Logout
+            </Button>
           ) : (
             <>
               <Link
