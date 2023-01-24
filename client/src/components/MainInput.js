@@ -117,7 +117,7 @@ const MainInput = ({ operation, calculation }) => {
   return (
     <>
       <Navbar />
-      {console.log(streak)}
+      
       {seconds && lives > 0 ? (
         <>
           <GameInfo></GameInfo>
