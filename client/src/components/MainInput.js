@@ -31,6 +31,7 @@ const MainInput = ({ operation, calculation }) => {
   const [generateNewNumbers, setGenerateNewNumbers] = useState(false);
   const [haveToEnterAnswer, setHaveToEnterAnswer] = useState(false);
   const [streak, setStreak] = useState(0)
+ 
 
 
   // FIX THE UNDEFINED ISSUE
@@ -40,6 +41,7 @@ const MainInput = ({ operation, calculation }) => {
   // FIX THE UNDEFINED ISSUE
 
   useEffect(()=>{
+    
      if (correctValue && streak === 4) {
        dispatch(earnLife());
      }

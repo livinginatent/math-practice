@@ -29,6 +29,7 @@ export const registerUser = asyncHandler(async (req, res) => {
   const user = await User.create({
     username,
     email,
+    userStats: { totalGamesPlayed: 0, highestScore: 0 },
     password: hashedPassword,
   });
 
@@ -37,6 +38,7 @@ export const registerUser = asyncHandler(async (req, res) => {
       _id: user.id,
       username: user.username,
       email: user.email,
+      userStats: user.userStats,
       token: generateToken(user._id),
     });
   } else {
@@ -44,7 +46,6 @@ export const registerUser = asyncHandler(async (req, res) => {
     throw new Error("Invalid user data");
   }
 });
-
 // @desc    Authenticate a user
 // @route   POST /api/users/login
 // @access  Public
@@ -67,11 +68,49 @@ export const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
+// Update user stats
+
+export const updateUserStats = asyncHandler(async (req, res) => {
+  // Extract token from headers
+  const token = req.headers.authorization.split(" ")[1];
+
+  // Find the user by token
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  // Find user by id
+  const user = await User.findOne({ _id: decoded.id });
+
+  if (!user) {
+    return res.status(404).send("User not found");
+  }
+
+  user.userStats.totalGamesPlayed++;
+  
+  user.userStats.highestScore = Math.max(
+    user.userStats.highestScore,
+    req.body.highestScore
+  );
+
+  // Save the updated user
+  const updatedUser = await User.findByIdAndUpdate(
+    { _id: decoded.id },
+    { $set: { userStats: user.userStats } },
+    {new:true}
+  );
+
+  if (updatedUser) {
+    res.json(updatedUser);
+  } else {
+    res.status(400);
+    throw new Error("Something went wrong");
+  }
+});
+
+
 // @desc    Get user data
 // @route   GET /api/users/me
 // @access  Private
 export const getMe = asyncHandler(async (req, res) => {
-  res.status(200).json(req.user) 
+  res.status(200).json(req.user);
 });
 
 // Generate JWT

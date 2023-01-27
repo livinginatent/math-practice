@@ -6,7 +6,6 @@ const userSchema = mongoose.Schema(
       type: String,
       required: [true, "Please add a username"],
     },
-  
 
     email: {
       type: String,
@@ -17,11 +16,22 @@ const userSchema = mongoose.Schema(
       type: String,
       required: [true, "Please add your password"],
     },
+    userStats: 
+      {
+        totalGamesPlayed: {
+          type: Number,
+          default: 0,
+        },
+        highestScore: {
+          type: Number,
+          default: 0,
+        },
+      },
+    
   },
   { timestamps: true }
 );
 
+const User = mongoose.model("User", userSchema);
 
-const User = mongoose.model('User', userSchema)
-
-export default User
+export default User;
