@@ -52,7 +52,7 @@ const MainInput = ({ operation, calculation }) => {
 
   useEffect(() => {
     if (gameOver) {
-      updateScore(highestScore, token);
+      updateScore(highestScore, operation, token);
     }
   }, [gameOver]);
 

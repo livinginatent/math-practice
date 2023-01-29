@@ -79,16 +79,41 @@ export const updateUserStats = asyncHandler(async (req, res) => {
   // Find user by id
   const user = await User.findOne({ _id: decoded.id });
 
+  // Determine which arithmetic operation
+
+  const operation = req.body.operation;
+
   if (!user) {
     return res.status(404).send("User not found");
   }
 
   user.userStats.totalGamesPlayed++;
 
-  user.userStats.highestScore = Math.max(
-    user.userStats.highestScore,
-    req.body.highestScore
-  );
+  if (operation === "+") {
+    user.userStats.totalAdditionPlayed++;
+    user.userStats.highestAdditionScore = Math.max(
+      user.userStats.highestAdditionScore,
+      req.body.highestScore
+    );
+  } else if (operation === "-") {
+    user.userStats.totalSubtractionPlayed++;
+    user.userStats.highestSubtractionScore = Math.max(
+      user.userStats.highestSubtractionScore,
+      req.body.highestScore
+    );
+  } else if (operation === "*") {
+    user.userStats.totalMultiplicationPlayed++;
+    user.userStats.highestMultiplicationScore = Math.max(
+      user.userStats.highestMultiplicationScore,
+      req.body.highestScore
+    );
+  } else {
+    user.userStats.totalDivisionPlayed++;
+    user.userStats.highestDivisionScore = Math.max(
+      user.userStats.highestMultiplicationScore,
+      req.body.highestScore
+    );
+  }
 
   // Save the updated user
   const updatedUser = await User.findByIdAndUpdate(

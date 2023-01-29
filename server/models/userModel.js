@@ -22,7 +22,35 @@ const userSchema = mongoose.Schema(
           type: Number,
           default: 0,
         },
-        highestScore: {
+        totalAdditionPlayed: {
+          type: Number,
+          default: 0,
+        },
+        totalSubtractionPlayed: {
+          type: Number,
+          default: 0,
+        },
+        totalMultiplicationPlayed: {
+          type: Number,
+          default: 0,
+        },
+        totalDivisionPlayed: {
+          type: Number,
+          default: 0,
+        },
+        highestAdditionScore: {
+          type: Number,
+          default: 0,
+        },
+        highestSubtractionScore: {
+          type: Number,
+          default: 0,
+        },
+        highestMultiplicationScore: {
+          type: Number,
+          default: 0,
+        },
+        highestDivisionScore: {
           type: Number,
           default: 0,
         },
