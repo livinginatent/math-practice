@@ -43,6 +43,7 @@ export const gameSlice = createSlice({
             state.lives=3
             state.seconds=20
             state.isStarted=false
+            state.isFinished=false
             
         },
     }

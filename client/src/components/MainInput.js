@@ -13,11 +13,12 @@ import {
   earnLife,
   gainPoints,
   gainTime,
+  isFinished,
   loseLife,
   loseTime,
   restart,
 } from "../features/gameSlice";
-
+import { updateScore } from "../statsHandler";
 
 const correctAnswer = <Typography>Correct!</Typography>;
 const wrongAnswer = <Typography>Wrong!</Typography>;
@@ -30,25 +31,38 @@ const MainInput = ({ operation, calculation }) => {
   const [isIncorrect, setIsIncorrect] = useState(false);
   const [generateNewNumbers, setGenerateNewNumbers] = useState(false);
   const [haveToEnterAnswer, setHaveToEnterAnswer] = useState(false);
-  const [streak, setStreak] = useState(0)
- 
+  const [streak, setStreak] = useState(0);
 
+  const seconds = useSelector((state) => state.game.seconds);
+  const points = useSelector((state) => state.game.points);
+  const lives = useSelector((state) => state.game.lives);
+  const gameOver = useSelector((state) => state.game.isFinished);
+  const gameStart = useSelector((state) => state.game.isStarted);
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  const token = user.token;
+
+  let highestScore = points;
 
   // FIX THE UNDEFINED ISSUE
 
   // FIX THE UNDEFINED ISSUE
 
   // FIX THE UNDEFINED ISSUE
-
-  useEffect(()=>{
-    
-     if (correctValue && streak === 4) {
-       dispatch(earnLife());
-     }
-  },[streak])
 
   useEffect(() => {
-    
+    if (gameOver) {
+      updateScore(highestScore, token);
+    }
+  }, [gameOver]);
+
+  useEffect(() => {
+    if (correctValue && streak === 4) {
+      dispatch(earnLife());
+    }
+  }, [streak]);
+
+  useEffect(() => {
     setCalculatedNums(calculation());
     setGenerateNewNumbers(false);
     setCorrectValue(false);
@@ -57,11 +71,7 @@ const MainInput = ({ operation, calculation }) => {
 
   const dispatch = useDispatch();
 
-  const seconds = useSelector((state) => state.game.seconds);
-  const points = useSelector((state) => state.game.points);
-  const lives = useSelector((state) => state.game.lives);
-
-  const timerValid = seconds > 0;
+  const timerValid = lives > 0 && seconds > 0 && gameStart;
 
   const newChallenge = () => {
     setIsIncorrect(false);
@@ -70,14 +80,25 @@ const MainInput = ({ operation, calculation }) => {
   };
 
   const handleCount = () => {
-    dispatch(loseTime());
+    if (timerValid) {
+      dispatch(loseTime());
+    }
   };
+
+  useEffect(() => {
+    if (lives === 0 || seconds === 0) {
+      dispatch(isFinished());
+    }
+  }, [dispatch, lives, seconds]);
 
   useEffect(() => {
     let interval;
     if (timerValid) {
       interval = setInterval(() => {
         handleCount();
+        if (lives === 0 || seconds === 0) {
+          clearInterval(interval);
+        }
       }, 1000);
     }
     return () => {
@@ -90,10 +111,8 @@ const MainInput = ({ operation, calculation }) => {
       setGenerateNewNumbers(true);
       dispatch(gainPoints());
       dispatch(gainTime());
-      setStreak(streak + 1)
-
+      setStreak(streak + 1);
     }
-   
 
     if (+enteredValue === calculatedNums.result) {
       setCorrectValue(true);
@@ -102,7 +121,7 @@ const MainInput = ({ operation, calculation }) => {
     } else {
       setIsIncorrect(true);
       dispatch(loseLife());
-      setStreak(0)
+      setStreak(0);
     }
   };
 
@@ -119,7 +138,7 @@ const MainInput = ({ operation, calculation }) => {
   return (
     <>
       <Navbar />
-      
+
       {seconds && lives > 0 ? (
         <>
           <GameInfo></GameInfo>

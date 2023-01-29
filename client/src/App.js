@@ -10,6 +10,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import FreeOrChallenge from "./components/FreeOrChallenge";
+import Dashboard from "./Pages/Dashboard";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
             <Route path="/login/" element={<Login />} />
             <Route path="/register/" element={<Register />} />
             <Route path="/prac-challenge/" element={<FreeOrChallenge />} />
+            <Route path="/dashboard/" element={<Dashboard />} />
           </Routes>
         </BrowserRouter>
         <ToastContainer />

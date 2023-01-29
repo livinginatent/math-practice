@@ -84,7 +84,7 @@ export const updateUserStats = asyncHandler(async (req, res) => {
   }
 
   user.userStats.totalGamesPlayed++;
-  
+
   user.userStats.highestScore = Math.max(
     user.userStats.highestScore,
     req.body.highestScore
@@ -94,7 +94,7 @@ export const updateUserStats = asyncHandler(async (req, res) => {
   const updatedUser = await User.findByIdAndUpdate(
     { _id: decoded.id },
     { $set: { userStats: user.userStats } },
-    {new:true}
+    { new: true }
   );
 
   if (updatedUser) {
@@ -104,7 +104,6 @@ export const updateUserStats = asyncHandler(async (req, res) => {
     throw new Error("Something went wrong");
   }
 });
-
 
 // @desc    Get user data
 // @route   GET /api/users/me
