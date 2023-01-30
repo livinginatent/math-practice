@@ -10,14 +10,18 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout, reset } from "../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
+import { restart } from "../features/gameSlice";
 
 export default function Navbar() {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch()
 
+  
+
   const onClick = () => {
     dispatch(logout())
+    dispatch(restart())
     dispatch(reset())
     navigate('/')
   }

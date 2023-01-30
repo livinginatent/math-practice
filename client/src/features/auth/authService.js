@@ -1,4 +1,6 @@
 import axios from "axios";
+import {useDispatch} from 'react-redux'
+
 
 const API_URL = "http://localhost:5000/users/";
 
@@ -30,7 +32,9 @@ const login = async (userData) => {
 // Logout user
 
 const logout = () => {
-  console.log(localStorage.getItem('user'))
+  
+
+  
   localStorage.removeItem("user");
 };
 

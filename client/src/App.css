@@ -29,3 +29,14 @@ input[type=number]::-webkit-outer-spin-button {
 .App {
  margin: 0px;
 }
+
+/* .dav-container {
+   
+   border-radius: 25px;
+   
+} */
+
+.MuiToolbar-root {
+  margin-left: 0;
+  margin-right: 0;
+}

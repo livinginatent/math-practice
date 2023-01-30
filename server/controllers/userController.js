@@ -58,7 +58,7 @@ export const loginUser = asyncHandler(async (req, res) => {
   if (user && (await bcrypt.compare(password, user.password))) {
     res.json({
       _id: user.id,
-      name: user.name,
+      username: user.username,
       email: user.email,
       token: generateToken(user._id),
     });
@@ -134,7 +134,7 @@ export const updateUserStats = asyncHandler(async (req, res) => {
 // @route   GET /api/users/me
 // @access  Private
 export const getMe = asyncHandler(async (req, res) => {
-  res.status(200).json(req.user);
+  res.status(200).json(req.user.userStats);
 });
 
 // Generate JWT

@@ -1,4 +1,5 @@
 import axios from "axios";
+
 export const updateScore = async (highestScore, operation, token) => {
   try {
     const config = {
