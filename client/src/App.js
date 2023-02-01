@@ -12,6 +12,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import FreeOrChallenge from "./components/FreeOrChallenge";
 import UserDashboard from "./Pages/UserDashboard";
 import {useSelector} from 'react-redux'
+import Profile from "./Pages/Profile";
 
 function App() {
   const user = useSelector((state)=>state.auth.user)
@@ -35,6 +36,7 @@ function App() {
             <Route path="/register/" element={<Register />} />
             <Route path="/prac-challenge/" element={<FreeOrChallenge />} />
             <Route path="/dashboard/" element={user ? <UserDashboard/> : <Login/>} />
+            <Route path="/profile/" element={<Profile />} />
           </Routes>
         </BrowserRouter>
         <ToastContainer />

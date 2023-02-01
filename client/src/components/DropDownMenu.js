@@ -48,7 +48,42 @@ export default function DropDownMenu(props) {
         </Menu>
       </div>
     );
-  } else{
+  } else if(props.props.navLocation ==='profile'){
+    return (
+      <div>
+        <IconButton
+          startIcon={<MenuIcon />}
+          id="basic-button"
+          aria-controls={open ? "basic-menu" : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? "true" : undefined}
+          onClick={handleClick}
+        >
+          <MenuIcon />
+        </IconButton>
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
+          }}
+        >
+          <Link
+            style={{ textDecoration: "none", color: "inherit" }}
+            to="/"
+          >
+            <MenuItem onClick={handleClose}>Home</MenuItem>
+          </Link>
+          <Link style={{ textDecoration: "none", color: "inherit" }} to="/dashboard">
+            <MenuItem onClick={handleClose}>Dashboard</MenuItem>
+          </Link>
+        </Menu>
+      </div>
+    );
+  }
+   else{
 
     return (<div>
       <IconButton

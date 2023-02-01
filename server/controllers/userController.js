@@ -2,6 +2,7 @@ import User from "../models/userModel.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import asyncHandler from "express-async-handler";
+import e from "express";
 
 // Register new user
 
@@ -14,7 +15,8 @@ export const registerUser = asyncHandler(async (req, res) => {
   }
 
   // Check if user exists
-  const userExists = await User.findOne({ email });
+  const userExists =
+    (await User.findOne({ email })) && (await User.findOne({ username }));
 
   if (userExists) {
     res.status(400);
@@ -68,6 +70,45 @@ export const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
+// Update user
+
+export const updateUser = asyncHandler(async (req, res) => {
+  const { username, email, password } = req.body;
+
+  // Extract token from headers
+  const token = req.headers.authorization.split(" ")[1];
+
+  // Find the user by token
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  // Find user by id
+  const user = await User.findOne({ _id: decoded.id });
+
+  // Check if email or username already exists
+  const emailExists = await User.findOne({ email });
+  const usernameExists = await User.findOne({ username });
+  if (emailExists || usernameExists) {
+    res.status(400);
+    throw new Error("This email or username is already registered");
+  }
+
+  // Hash password
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(password, salt);
+
+  // Update user information
+  user.username = username;
+  user.email = email;
+  user.password = hashedPassword;
+  const updatedUser = await user.save();
+
+  if (updatedUser) {
+    res.json(updatedUser);
+  } else {
+    res.status(400);
+    throw new Error("Something went wrong");
+  }
+});
+
 // Update user stats
 
 export const updateUserStats = asyncHandler(async (req, res) => {
@@ -116,14 +157,14 @@ export const updateUserStats = asyncHandler(async (req, res) => {
   }
 
   // Save the updated user
-  const updatedUser = await User.findByIdAndUpdate(
+  const updatedUserStats = await User.findByIdAndUpdate(
     { _id: decoded.id },
     { $set: { userStats: user.userStats } },
     { new: true }
   );
 
-  if (updatedUser) {
-    res.json(updatedUser);
+  if (updatedUserStats) {
+    res.json(updatedUserStats);
   } else {
     res.status(400);
     throw new Error("Something went wrong");

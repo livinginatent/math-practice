@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { restart } from "../features/gameSlice";
 import DropDownMenu from "./DropDownMenu";
 
-export default function Navbar() {
+export default function Navbar(props) {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch()
@@ -34,7 +34,7 @@ export default function Navbar() {
       <AppBar position="static">
         <Toolbar>
           
-        <DropDownMenu/>
+        <DropDownMenu props={props}/>
           <Link></Link>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <Link
