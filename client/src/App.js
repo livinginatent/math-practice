@@ -11,9 +11,10 @@ import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import FreeOrChallenge from "./components/FreeOrChallenge";
 import UserDashboard from "./Pages/UserDashboard";
-
+import {useSelector} from 'react-redux'
 
 function App() {
+  const user = useSelector((state)=>state.auth.user)
   return (
     <>
       <div  className="App">
@@ -33,7 +34,7 @@ function App() {
             <Route path="/login/" element={<Login />} />
             <Route path="/register/" element={<Register />} />
             <Route path="/prac-challenge/" element={<FreeOrChallenge />} />
-            <Route path="/dashboard/" element={<UserDashboard/>} />
+            <Route path="/dashboard/" element={user ? <UserDashboard/> : <Login/>} />
           </Routes>
         </BrowserRouter>
         <ToastContainer />

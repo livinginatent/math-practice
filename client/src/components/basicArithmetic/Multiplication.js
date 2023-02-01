@@ -6,14 +6,20 @@ import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 import PracticeButton from '../PracticeButton';
 import { useNavigate } from "react-router";
+import { useSelector } from 'react-redux';
 
 
 const Multiplication = () => {
-  const arithName = "Multiplication";
-  const navigate = useNavigate();
-  const handleClick = () => {
-    navigate("multiplication-practice");
-  };
+ const { user } = useSelector((state) => state.auth);
+ const arithName = "Multiplication";
+ const navigate = useNavigate();
+ const handleClick = () => {
+   if (user) {
+     navigate("multiplication-practice");
+   } else {
+     navigate("register");
+   }
+ };
   return (
     <div className="card">
       <Card sx={{ maxWidth: 345 }}>

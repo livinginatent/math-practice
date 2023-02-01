@@ -11,6 +11,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout, reset } from "../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import { restart } from "../features/gameSlice";
+import DropDownMenu from "./DropDownMenu";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -32,17 +33,16 @@ export default function Navbar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
+          
+        <DropDownMenu/>
+          <Link></Link>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Math Practice
+            <Link
+              style={{ color: "inherit", textDecoration: "inherit" }}
+              to="/"
+            >
+              Math Practice
+            </Link>
           </Typography>
 
           {user ? (

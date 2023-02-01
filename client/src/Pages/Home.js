@@ -15,8 +15,7 @@ import { useDispatch } from "react-redux";
 import { restart } from "../features/gameSlice";
 
 const Home = () => {
-  const navigate = useNavigate();
-  const { user } = useSelector((state) => state.auth);
+  
   const navigationType = useNavigationType();
   const dispatch = useDispatch()
 
@@ -24,13 +23,9 @@ useEffect(()=>{
   if(navigationType === NavigationType.Pop){
     dispatch(restart())
   }
-})
+},[])
 
-  useEffect(() => {
-    if (!user) {
-      navigate("/login");
-    }
-  });
+ 
 
   return (
     <>

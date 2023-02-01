@@ -6,12 +6,18 @@ import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 import PracticeButton from "../PracticeButton";
 import { useNavigate } from "react-router";
+import { useSelector } from "react-redux";
 
 const Division = () => {
+  const { user } = useSelector((state) => state.auth);
   const arithName = "Division";
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate("division-practice");
+    if (user) {
+      navigate("division-practice");
+    } else {
+      navigate("register");
+    }
   };
   return (
     <div className="card">

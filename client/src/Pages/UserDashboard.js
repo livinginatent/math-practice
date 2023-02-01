@@ -1,18 +1,20 @@
-import React from 'react'
-import DashCharts from '../components/dashboardComponents/DashCharts'
-import DashGrid from '../components/dashboardComponents/DashGrid'
-import DashNav from '../components/dashboardComponents/DashNav'
-import Navbar from '../components/Navbar'
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
+import DashCharts from "../components/dashboardComponents/DashCharts";
+import DashNav from "../components/dashboardComponents/DashNav";
+
 
 function UserDashboard() {
+
+  
   return (
     <>
-    
     <DashNav/>
-    
     <DashCharts/>
     </>
-  )
+    
+  );
 }
 
-export default UserDashboard
+export default UserDashboard;
