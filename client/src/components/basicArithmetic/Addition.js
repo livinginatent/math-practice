@@ -17,7 +17,7 @@ const Addition = () => {
       navigate("addition-practice");
     } else {
       navigate("register");
-    };
+    }
   };
 
   return (

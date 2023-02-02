@@ -15,22 +15,19 @@ import { useDispatch } from "react-redux";
 import { restart } from "../features/gameSlice";
 
 const Home = () => {
-  
   const navigationType = useNavigationType();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-useEffect(()=>{
-  if(navigationType === NavigationType.Pop){
-    dispatch(restart())
-  }
-},[])
-
- 
+  useEffect(() => {
+    if (navigationType === NavigationType.Pop) {
+      dispatch(restart());
+    }
+  }, []);
 
   return (
     <>
       <Navbar />
-      
+
       <div className="arithmetics">
         <Addition />
         <Subtraction />

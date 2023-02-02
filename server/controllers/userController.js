@@ -41,6 +41,7 @@ export const registerUser = asyncHandler(async (req, res) => {
       username: user.username,
       email: user.email,
       userStats: user.userStats,
+      joinDate: user.createdAt,
       token: generateToken(user._id),
     });
   } else {
@@ -62,6 +63,7 @@ export const loginUser = asyncHandler(async (req, res) => {
       _id: user.id,
       username: user.username,
       email: user.email,
+      joinDate: user.createdAt,
       token: generateToken(user._id),
     });
   } else {
@@ -73,7 +75,7 @@ export const loginUser = asyncHandler(async (req, res) => {
 // Update user
 
 export const updateUser = asyncHandler(async (req, res) => {
-  const { username, email, password } = req.body;
+  const { newUsername, newEmail, newPassword } = req.body;
 
   // Extract token from headers
   const token = req.headers.authorization.split(" ")[1];
@@ -84,25 +86,44 @@ export const updateUser = asyncHandler(async (req, res) => {
   const user = await User.findOne({ _id: decoded.id });
 
   // Check if email or username already exists
-  const emailExists = await User.findOne({ email });
-  const usernameExists = await User.findOne({ username });
+  const emailExists = await User.findOne({
+    email: req.body.newEmail,
+  });
+  const usernameExists = await User.findOne({
+    username: req.body.newUsername,
+  });
+
   if (emailExists || usernameExists) {
     res.status(400);
     throw new Error("This email or username is already registered");
   }
 
-  // Hash password
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(password, salt);
+  // Update username and email
+  if (newUsername) user.username = newUsername;
+  if (newEmail) user.email = newEmail;
 
-  // Update user information
-  user.username = username;
-  user.email = email;
-  user.password = hashedPassword;
+  // Hash password
+  if (newPassword) {
+    if (await bcrypt.compare(newPassword, user.password)) {
+      res.status(400);
+      throw new Error("New password can't be the current password");
+    } else {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(newPassword, salt);
+      user.password = hashedPassword;
+    }
+  }
+
   const updatedUser = await user.save();
 
   if (updatedUser) {
-    res.json(updatedUser);
+    res.json({
+      _id: user.id,
+      username: user.username,
+      email: user.email,
+      joinDate: user.createdAt,
+      token: generateToken(user._id),
+    });
   } else {
     res.status(400);
     throw new Error("Something went wrong");
