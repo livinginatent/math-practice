@@ -7,7 +7,7 @@ import { start } from "../features/gameSlice";
 
 function Beginning() {
   const [count, setCount] = useState(3);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
 
   
 
@@ -43,10 +43,14 @@ function Beginning() {
 
   return (
     <>
-      <Typography variant="h1" fontStyle={'Poppins'} fontSize={36}>GET READY...</Typography>
+      <Typography variant="h1" fontStyle={"Poppins"} fontSize={36}>
+        GET READY...
+      </Typography>
 
-      <Typography fontSize={48} >{count}</Typography>
-      <Typography fontSize={60} >{message}</Typography>
+      <Typography fontSize={48}>{count}</Typography>
+      <Typography fontSize={60}>
+        <span data-testid='go-message'>{message}</span>
+      </Typography>
     </>
   );
 }

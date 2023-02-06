@@ -107,6 +107,13 @@ export default function DropDownMenu(props) {
       >
         <Link
           style={{ textDecoration: "none", color: "inherit" }}
+          to="/"
+        >
+        <MenuItem onClick={handleClose}>Home</MenuItem>
+          
+        </Link>
+        <Link
+          style={{ textDecoration: "none", color: "inherit" }}
           to="/profile"
         >
         <MenuItem onClick={handleClose}>Profile</MenuItem>
