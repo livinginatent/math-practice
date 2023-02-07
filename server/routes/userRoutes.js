@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
-router.patch("/updateusertstats", updateUserStats);
+router.patch("/updateuserstats", updateUserStats);
 router.put("/updateuser", updateUser);
 router.get("/me",protect, getMe);
  

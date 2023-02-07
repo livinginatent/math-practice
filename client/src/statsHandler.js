@@ -11,7 +11,7 @@ export const updateScore = async (highestScore, operation, token) => {
     const body = JSON.stringify({ highestScore,operation });
 
     const res = await axios.patch(
-      "http://localhost:5000/users/updatestats",
+      "http://localhost:5000/users/updateuserstats",
       body,
       config
     );
