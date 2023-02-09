@@ -5,13 +5,13 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 
 const theme = createTheme();
 
 export default function EditUserInfo(props) {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem("user")) || {};
   const token = user.token;
   const [formData, setFormData] = useState({
     newUsername: "",
@@ -30,12 +30,12 @@ export default function EditUserInfo(props) {
 
   const onSubmit = (e) => {
     e.preventDefault();
-   
+
     const userData = {};
-     if (newUsername) userData.newUsername = newUsername;
-     if (newEmail) userData.newEmail = newEmail;
-     if (currentPassword) userData.currentPassword = currentPassword;
-     if (newPassword) userData.newPassword = newPassword;
+    if (newUsername) userData.newUsername = newUsername;
+    if (newEmail) userData.newEmail = newEmail;
+    if (currentPassword) userData.currentPassword = currentPassword;
+    if (newPassword) userData.newPassword = newPassword;
     const updateUser = async (userData, token) => {
       const config = {
         headers: {
@@ -50,10 +50,9 @@ export default function EditUserInfo(props) {
       );
 
       if (response.data) {
-        console.log(response.data)
+        console.log(response.data);
         props.onUpdateSuccess();
         localStorage.setItem("user", JSON.stringify(response.data));
-
       }
 
       return response.data;
@@ -75,6 +74,7 @@ export default function EditUserInfo(props) {
         >
           <Box component="form" onSubmit={onSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
+              inputProps={{ "data-testid": "new-username" }}
               margin="normal"
               required
               fullWidth
@@ -88,6 +88,7 @@ export default function EditUserInfo(props) {
               autoFocus
             />
             <TextField
+              inputProps={{ "data-testid": "new-email" }}
               margin="normal"
               required
               fullWidth
@@ -98,9 +99,9 @@ export default function EditUserInfo(props) {
               name="newEmail"
               autoComplete="email"
               onChange={onChange}
-             
             />
             <TextField
+              inputProps={{ "data-testid": "current-password" }}
               margin="normal"
               required
               fullWidth
@@ -113,6 +114,7 @@ export default function EditUserInfo(props) {
               onChange={onChange}
             />
             <TextField
+              inputProps={{ "data-testid": "new-password" }}
               margin="normal"
               required
               fullWidth
