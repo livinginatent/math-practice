@@ -17,13 +17,13 @@ export default function DashNav() {
     navigate("/");
   };
 
-  const navLocation = "dashboard";
+  const dashLocation = "dashboard";
   const user = useSelector((state) => state.auth.user);
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <DropDownMenu navLocation={navLocation} />
+          <DropDownMenu dashLocation={dashLocation} />
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             {`Welcome ${user.username}!`}
           </Typography>

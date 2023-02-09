@@ -2,7 +2,7 @@ import renderer from 'react-test-renderer';
 import Beginning from './Beginning';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
-import { render, waitFor } from '@testing-library/react';
+import { act, render, waitFor } from '@testing-library/react';
 import { screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
@@ -37,7 +37,7 @@ describe('Testing ‘Beginning’ component', () => {
     expect(message.innerHTML).toBe('GET READY...');
   });
 
-  test('The numbers should be counting down and display `GO`', async () => {
+  test("The numbers should be counting down and display `GO`", async () => {
     jest.useFakeTimers();
     render(
       <Provider store={store}>
@@ -45,20 +45,26 @@ describe('Testing ‘Beginning’ component', () => {
       </Provider>
     );
 
-    const countingDown = screen.getByText('3');
-    const message = screen.getByTestId('go-message');
+    const countingDown = screen.getByText("3");
+    const message = screen.getByTestId("go-message");
 
-    jest.advanceTimersByTime(1000);
+    act(() => {
+      jest.advanceTimersByTime(1000);
+    });
     await waitFor(() => {
       expect(Number(countingDown.innerHTML)).toBe(2);
     });
-    jest.advanceTimersByTime(1000);
+    act(() => {
+      jest.advanceTimersByTime(1000);
+    });
     await waitFor(() => {
       expect(Number(countingDown.innerHTML)).toBe(1);
     });
-    jest.advanceTimersByTime(1000);
+    act(() => {
+      jest.advanceTimersByTime(1000);
+    });
     await waitFor(() => {
-      expect(message.innerHTML).toBe('GO');
+      expect(message.innerHTML).toBe("GO");
     });
   });
 
@@ -69,8 +75,11 @@ describe('Testing ‘Beginning’ component', () => {
       </Provider>
     );
 
-    jest.advanceTimersByTime(1000);
-    expect(store.getActions()).toEqual([{ type: 'game/start' }]);
+    act(()=>{
+      jest.advanceTimersByTime(1000);
+      expect(store.getActions()).toEqual([{ type: 'game/start' }]);
+
+    })
   });
 
   jest.useRealTimers();

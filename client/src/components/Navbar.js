@@ -32,9 +32,13 @@ export default function Navbar(props) {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
+        
         <Toolbar>
           
-        <DropDownMenu props={props}/>
+        {user ? (<DropDownMenu profileLocation={props.profileLocation} props={props}/>):(() => {
+          
+        })}  
+        
           <Link></Link>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <Link

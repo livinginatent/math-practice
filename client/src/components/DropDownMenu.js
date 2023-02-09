@@ -1,14 +1,15 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
+
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MenuIcon from "@mui/icons-material/Menu";
 import { IconButton } from "@mui/material";
-import UserDashboard from "../Pages/UserDashboard";
-import { useNavigate } from "react-router";
+
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function DropDownMenu(props) {
+  
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -17,9 +18,10 @@ export default function DropDownMenu(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  if (props.navLocation === "dashboard") {
+  if (props.dashLocation === "dashboard") {
     return (
       <div>
+        
         <IconButton
           startIcon={<MenuIcon />}
           id="basic-button"
@@ -48,7 +50,7 @@ export default function DropDownMenu(props) {
         </Menu>
       </div>
     );
-  } else if(props.props.navLocation ==='profile'){
+  } else if(props.profileLocation ==='profile'){
     return (
       <div>
         <IconButton
@@ -105,13 +107,7 @@ export default function DropDownMenu(props) {
           "aria-labelledby": "basic-button",
         }}
       >
-        <Link
-          style={{ textDecoration: "none", color: "inherit" }}
-          to="/"
-        >
-        <MenuItem onClick={handleClose}>Home</MenuItem>
-          
-        </Link>
+        
         <Link
           style={{ textDecoration: "none", color: "inherit" }}
           to="/profile"
