@@ -9,7 +9,6 @@ import Register from "./Pages/Register";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import FreeOrChallenge from "./components/FreeOrChallenge";
 import UserDashboard from "./Pages/UserDashboard";
 import {useSelector} from 'react-redux'
 import Profile from "./Pages/Profile";
@@ -34,7 +33,6 @@ function App() {
             <Route path="/division-practice/" element={<DivisionMain />} />
             <Route path="/login/" element={<Login />} />
             <Route path="/register/" element={<Register />} />
-            <Route path="/prac-challenge/" element={<FreeOrChallenge />} />
             <Route path="/dashboard/" element={user ? <UserDashboard/> : <Login/>} />
             <Route path="/profile/" element={<Profile />} />
           </Routes>
