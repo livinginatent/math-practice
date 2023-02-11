@@ -41,6 +41,7 @@ describe("Lives component", () => {
    
  const hearts = screen.getByTestId('hearts-state')
 
+  // eslint-disable-next-line testing-library/no-node-access
   expect(hearts.getElementsByTagName('svg')).toHaveLength(3);
   });
 });
