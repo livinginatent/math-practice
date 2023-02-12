@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import MainInput from "../components/MainInput";
 import { generateNumbersAndResults } from "../MainArithmetics";
-import { useNavigationType, NavigationType } from "react-router-dom";
+
 import { useSelector } from "react-redux";
 import Beginning from "../components/Beginning";
 import { Container } from "@mui/system";
@@ -9,7 +9,7 @@ import { Container } from "@mui/system";
 const AdditionMain = () => {
   const gameStart = useSelector((state) => state.game.isStarted);
   const operation = "+";
-  const calculation = generateNumbersAndResults().addition;
+  const calculation = generateNumbersAndResults().addition
 
 
   if (!gameStart){

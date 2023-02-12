@@ -24,7 +24,7 @@ const correctAnswer = <Typography>Correct!</Typography>;
 const wrongAnswer = <Typography>Wrong!</Typography>;
 const enterAnswer = <Typography>Enter your answer!</Typography>;
 
-const MainInput = ({ operation, calculation }) => {
+const MainOrderedInput = ({ operation, calculation }) => {
   const [enteredValue, setEnteredValue] = useState("");
   const [correctValue, setCorrectValue] = useState(false);
   const [calculatedNums, setCalculatedNums] = useState({});
@@ -151,15 +151,12 @@ const MainInput = ({ operation, calculation }) => {
                 alignItems: "center",
               }}
             >
-              
               <Typography>
                 Fill in the box to make the equation true.
               </Typography>
 
               <Typography fontSize={28}>
-                {operation !== "/"
-                  ? `${calculatedNums.number1} ${operation} ${calculatedNums.number2}`
-                  : `${calculatedNums.number2} ${operation} ${calculatedNums.number1}`}{" "}
+                {`${calculatedNums.operation}`}
                 =
               </Typography>
 
@@ -222,4 +219,4 @@ const MainInput = ({ operation, calculation }) => {
   );
 };
 
-export default MainInput;
+export default MainOrderedInput;

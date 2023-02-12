@@ -12,6 +12,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UserDashboard from "./Pages/UserDashboard";
 import {useSelector} from 'react-redux'
 import Profile from "./Pages/Profile";
+import OrderedMain from "./Pages/OrderedOperations";
 
 function App() {
   const user = useSelector((state)=>state.auth.user)
@@ -29,6 +30,10 @@ function App() {
             <Route
               path="/multiplication-practice/"
               element={<MultiplicationMain />}
+            />
+            <Route
+              path="/ordered-operation-practice/"
+              element={<OrderedMain />}
             />
             <Route path="/division-practice/" element={<DivisionMain />} />
             <Route path="/login/" element={<Login />} />
