@@ -9,11 +9,23 @@ export const generateExpression = () => {
   // NEEDS FIXES 
   // NEEDS FIXES 
   // NEEDS FIXES 
+const findDividers = (number) => {
+  let dividers = [];
+  let randomDivider;
 
+  for (let i = 1; i <= number; i++) {
+    if (number % i === 0) {
+      dividers.push(i);
+    }
+  }
+  randomDivider = dividers[Math.floor(Math.random()*dividers.length)]
+
+  return randomDivider;
+}
   
 
   // Determine if the expression should have parentheses
-  let useParentheses = Math.random() < 0.5;;
+  let useParentheses = true
 
   // Choose where to place the parentheses
   let leftParentheses = Math.random() < 0.5;
@@ -33,6 +45,12 @@ export const generateExpression = () => {
       if (operand1 === "/" && number2 === 0) {
         return generateExpression(); // avoid division by zero
       } 
+
+      if(operand2==='/'){
+        let parentResult = eval(`(${number1} ${operand1} ${number2})`)
+        
+        number3 = findDividers(parentResult);
+      }
 
       if(operand1==='/'){
         number1 = number2 * Math.floor(Math.random() * 10);
