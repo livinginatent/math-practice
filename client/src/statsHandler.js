@@ -24,7 +24,7 @@ export const updateScore = async (highestScore, operation, token) => {
       console.log(res.data.userStats);
     } else if (operation === "/") {
       console.log(res.data.userStats);
-    }
+    } else(console.log(res.data.userStats))
     return res.data;
   } catch (err) {
     console.error(err);

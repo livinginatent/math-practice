@@ -169,10 +169,16 @@ export const updateUserStats = asyncHandler(async (req, res) => {
       user.userStats.highestMultiplicationScore,
       req.body.highestScore
     );
-  } else {
+  } else if (operation === "/") {
     user.userStats.totalDivisionPlayed++;
     user.userStats.highestDivisionScore = Math.max(
-      user.userStats.highestMultiplicationScore,
+      user.userStats.highestDivisionScore,
+      req.body.highestScore
+    );
+  } else {
+    user.userStats.totalOrderedPlayed++;
+    user.userStats.highestOrderedScore = Math.max(
+      user.userStats.highestOrderedScore,
       req.body.highestScore
     );
   }

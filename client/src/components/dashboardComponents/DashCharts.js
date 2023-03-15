@@ -31,6 +31,7 @@ function DashCharts() {
             "Total Subtraction Played",
             "Total Multiplication Played",
             "Total Division Played",
+            "Total Ordered Operations Played",
           ],
           datasets: [
             {
@@ -41,6 +42,7 @@ function DashCharts() {
                 res.data.totalSubtractionPlayed,
                 res.data.totalMultiplicationPlayed,
                 res.data.totalDivisionPlayed,
+                res.data.totalOrderedPlayed,
               ],
               backgroundColor: [
                 "rgba(255, 99, 132, 0.6)",
@@ -48,6 +50,7 @@ function DashCharts() {
                 "rgba(255, 206, 86, 0.6)",
                 "rgba(75, 192, 192, 0.6)",
                 "rgba(153, 102, 255, 0.6)",
+                "rgba(160, 112, 255, 0.6)",
               ],
             },
           ],
@@ -58,6 +61,7 @@ function DashCharts() {
             "Subtraction Highest Score",
             "Multiplication Highest Score",
             "Subtraction Highest Score",
+            "Ordered Operations Highest Score",
           ],
           datasets: [
             {
@@ -67,12 +71,14 @@ function DashCharts() {
                 res.data.highestSubtractionScore,
                 res.data.highestMultiplicationScore,
                 res.data.highestDivisionScore,
+                res.data.highestOrderedScore,
               ],
               backgroundColor: [
                 "rgba(255, 99, 132, 0.6)",
                 "rgba(54, 162, 235, 0.6)",
                 "rgba(255, 206, 86, 0.6)",
                 "rgba(75, 192, 192, 0.6)",
+                "rgba(80, 200, 190, 0.6)",
               ],
             },
           ],
@@ -87,18 +93,17 @@ function DashCharts() {
 
   return (
     <>
-      <Box sx={{marginTop:6}}>
+      <Box sx={{ marginTop: 6 }}>
         <Grid
-        
           container
-          display={"flex"}
-          flexDirection="row"
+         /*  display={"flex"}
+          flexDirection="row" */
           justifyContent={"space-evenly"}
         >
-          <Grid >
+          <Grid>
             {totalGamesPlayed.labels ? (
               <Bar
-                style={{ width: 800,marginLeft:1 }}
+                style={{ width: 1200 }}
                 data={totalGamesPlayed}
                 options={{
                   title: {
@@ -119,7 +124,7 @@ function DashCharts() {
           <Grid>
             {gameScore.labels ? (
               <Bar
-                style={{ width: 800 ,marginRight:1}}
+                style={{ width: 1200 }}
                 data={gameScore}
                 options={{
                   title: {
@@ -139,55 +144,6 @@ function DashCharts() {
           </Grid>
         </Grid>
       </Box>
-      {/* <Box sx={{ flexGrow: 1, marginTop: 4 }}>
-        <Grid style={{ display: "flex", gap: "1rem" }} container spacing={2}>
-          <Grid xs={6}>
-            {totalGamesPlayed.labels ? (
-              <Bar
-                data={totalGamesPlayed}
-                options={{
-                  title: {
-                    display: true,
-                    text: "User Stats",
-                    fontSize: 25,
-                  },
-                  legend: {
-                    display: true,
-                    position: "right",
-                  },
-                }}
-              />
-            ) : (
-              <div />
-            )}
-
-            <Grid>
-              <div>
-                {gameScore.labels ? (
-                  <Bar
-                    data={gameScore}
-                    options={{
-                      title: {
-                        display: true,
-                        text: "User Stats",
-                        fontSize: 25,
-                      },
-                      legend: {
-                        display: true,
-                        position: "right",
-                      },
-                    }}
-                  />
-                ) : (
-                  <div />
-                )}
-              </div>
-            </Grid>
-          </Grid>
-        </Grid>
-
-        <div></div>
-      </Box> */}
     </>
   );
 }

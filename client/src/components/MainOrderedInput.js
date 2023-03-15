@@ -5,7 +5,7 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { useState } from "react";
-
+import { updateScore } from "../statsHandler";
 import GameInfo from "./GameInfo";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -18,13 +18,13 @@ import {
   loseTime,
   restart,
 } from "../features/gameSlice";
-import { updateScore } from "../statsHandler";
+
 
 const correctAnswer = <Typography>Correct!</Typography>;
 const wrongAnswer = <Typography>Wrong!</Typography>;
 const enterAnswer = <Typography>Enter your answer!</Typography>;
 
-const MainOrderedInput = ({ operation, calculation }) => {
+const MainOrderedInput = ({ calculation }) => {
   const [enteredValue, setEnteredValue] = useState("");
   const [correctValue, setCorrectValue] = useState(false);
   const [calculatedNums, setCalculatedNums] = useState({});
@@ -41,7 +41,7 @@ const MainOrderedInput = ({ operation, calculation }) => {
 
   const user = JSON.parse(localStorage.getItem("user"));
   const token = user.token;
-
+  const operation = 'ordered'
   let highestScore = points;
 
   // FIX THE UNDEFINED ISSUE

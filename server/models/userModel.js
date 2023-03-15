@@ -38,6 +38,10 @@ const userSchema = mongoose.Schema(
           type: Number,
           default: 0,
         },
+        totalOrderedPlayed: {
+          type: Number,
+          default: 0,
+        },
         highestAdditionScore: {
           type: Number,
           default: 0,
@@ -51,6 +55,10 @@ const userSchema = mongoose.Schema(
           default: 0,
         },
         highestDivisionScore: {
+          type: Number,
+          default: 0,
+        },
+        highestOrderedScore: {
           type: Number,
           default: 0,
         },
