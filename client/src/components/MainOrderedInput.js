@@ -57,11 +57,12 @@ const MainOrderedInput = ({ operation, calculation }) => {
 
   }, [gameOver]);
 
-  useEffect(() => {
-    if (correctValue && streak === 4) {
-      dispatch(earnLife());
-    }
-  }, [streak]);
+ useEffect(() => {
+   if (correctValue && streak === 4 && lives < 4) {
+     dispatch(earnLife());
+     setStreak(0);
+   }
+ }, [streak]);
 
   useEffect(() => {
     console.log(calculatedNums.expression)

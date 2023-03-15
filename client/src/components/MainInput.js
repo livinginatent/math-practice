@@ -57,8 +57,9 @@ const MainInput = ({ operation, calculation }) => {
   }, [gameOver]);
 
   useEffect(() => {
-    if (correctValue && streak === 4) {
+    if (correctValue && streak === 4 && lives<4) {
       dispatch(earnLife());
+      setStreak(0)
     }
   }, [streak]);
 
