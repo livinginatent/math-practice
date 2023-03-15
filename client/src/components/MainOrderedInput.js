@@ -54,6 +54,7 @@ const MainOrderedInput = ({ operation, calculation }) => {
     if (gameOver) {
       updateScore(highestScore, operation, token);
     }
+
   }, [gameOver]);
 
   useEffect(() => {
@@ -63,6 +64,7 @@ const MainOrderedInput = ({ operation, calculation }) => {
   }, [streak]);
 
   useEffect(() => {
+    console.log(calculatedNums.expression)
     setCalculatedNums(calculation());
     setGenerateNewNumbers(false);
     setCorrectValue(false);
@@ -156,7 +158,7 @@ const MainOrderedInput = ({ operation, calculation }) => {
               </Typography>
 
               <Typography fontSize={28}>
-                {`${calculatedNums.operation}`}
+                {`${calculatedNums.expression}`}
                 =
               </Typography>
 

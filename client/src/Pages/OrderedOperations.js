@@ -1,24 +1,19 @@
 import React from "react";
-import MainInput from "../components/MainInput";
-
-
 import { useSelector } from "react-redux";
 import Beginning from "../components/Beginning";
 import { Container } from "@mui/system";
-
 import MainOrderedInput from "../components/MainOrderedInput";
-import { generateOrderedOperationsAndResults } from "../MainOrdered";
+import { generateExpression } from "../MainOrdered";
 
 const OrderedMain = () => {
   const gameStart = useSelector((state) => state.game.isStarted);
-  
-  const calculation =
-    generateOrderedOperationsAndResults().randomOperationAndResult
+
+  const calculation = generateExpression;
 
   if (!gameStart) {
     return (
       <>
-      {console.log(calculation)}
+        {console.log(calculation)}
         <Container
           sx={{
             marginTop: 8,
@@ -34,7 +29,7 @@ const OrderedMain = () => {
   }
   return (
     <>
-      <MainOrderedInput  calculation={calculation} />
+      <MainOrderedInput calculation={calculation} />
     </>
   );
 };
