@@ -4,7 +4,7 @@ const initialState = {
     points:0,
     lives:3,
     seconds:20,
-    newGame:false,
+    startGame:false,
     isStarted:false,
     isFinished:false
 
@@ -14,6 +14,9 @@ export const gameSlice = createSlice({
     name:'game',
     initialState,
     reducers:{
+        startGame:(state)=>{
+            state.startGame=true
+        },
         gainPoints:(state)=>{
             state.points+=100
         },
@@ -39,16 +42,16 @@ export const gameSlice = createSlice({
         },
         restart:(state)=>{
             state.points=0
-            state.newGame = false
             state.lives=3
             state.seconds=20
             state.isStarted=false
             state.isFinished=false
+            state.startGame = false
             
         },
     }
 })
 
-export const {gainPoints, gainTime,loseTime,earnLife,loseLife,start,isFinished,restart} = gameSlice.actions
+export const {gainPoints, gainTime,loseTime,earnLife,loseLife,start,isFinished,restart, startGame} = gameSlice.actions
 
 export default gameSlice.reducer

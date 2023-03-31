@@ -6,17 +6,16 @@ import MainInput from "../components/MainInput";
 import { generateNumbersAndResults } from "../MainArithmetics";
 
 const SubtractionMain = () => {
-   const gameStart = useSelector((state) => state.game.isStarted);
+  const startGame = useSelector((state) => state.game.startGame);
   const operation = "-";
   const calculation = generateNumbersAndResults().subtraction;
 
- if (!gameStart){
-    
+  if (!startGame) {
     return (
       <>
         <Container
           sx={{
-            marginTop:8,
+            marginTop: 8,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -25,13 +24,13 @@ const SubtractionMain = () => {
           <Beginning />
         </Container>
       </>
-    ); 
-  }
-    return (
-      <>
-        <MainInput operation={operation} calculation={calculation} />
-      </>
     );
+  }
+  return (
+    <>
+      <MainInput operation={operation} calculation={calculation} />
+    </>
+  );
 };
 
 export default SubtractionMain;

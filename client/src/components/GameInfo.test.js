@@ -9,7 +9,6 @@ describe("GameInfo component", () => {
       points: 0,
       lives: 3,
       seconds: 20,
-      newGame: false,
       isStarted: false,
       isFinished: false,
     },

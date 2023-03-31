@@ -1,18 +1,17 @@
 import React from "react";
 import MainInput from "../components/MainInput";
 import { generateNumbersAndResults } from "../MainArithmetics";
-
 import { useSelector } from "react-redux";
 import Beginning from "../components/Beginning";
 import { Container } from "@mui/system";
 
 const AdditionMain = () => {
-  const gameStart = useSelector((state) => state.game.isStarted);
+  const startGame = useSelector((state) => state.game.startGame);
   const operation = "+";
   const calculation = generateNumbersAndResults().addition
 
 
-  if (!gameStart){
+  if (!startGame){
     
     return (
       <>

@@ -4,8 +4,6 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout, reset } from "../features/auth/authSlice";
@@ -16,37 +14,37 @@ import DropDownMenu from "./DropDownMenu";
 export default function Navbar(props) {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
-  const dispatch = useDispatch()
-
-  
+  const gameStart = useSelector((state) => state.game.isStarted);
+  const dispatch = useDispatch();
 
   const onClick = () => {
-    dispatch(logout())
-    dispatch(restart())
-    dispatch(reset())
-    navigate('/')
-  }
-
-  
+    dispatch(logout());
+    dispatch(restart());
+    dispatch(reset());
+    navigate("/");
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
-        
         <Toolbar>
+          {user ? (
+            <DropDownMenu
+              profileLocation={props.profileLocation}
+              props={props}
+            />
+          ) : (
+            () => {}
+          )}
+
           
-        {user ? (<DropDownMenu profileLocation={props.profileLocation} props={props}/>):(() => {
-          
-        })}  
-        
-          <Link></Link>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link
+            {!gameStart ?(<Link
               style={{ color: "inherit", textDecoration: "inherit" }}
               to="/"
             >
               Math Practice
-            </Link>
+            </Link>):(<>Math Practice</>)}
           </Typography>
 
           {user ? (

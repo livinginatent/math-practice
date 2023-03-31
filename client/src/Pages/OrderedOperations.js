@@ -6,11 +6,11 @@ import MainOrderedInput from "../components/MainOrderedInput";
 import { generateExpression } from "../MainOrdered";
 
 const OrderedMain = () => {
-  const gameStart = useSelector((state) => state.game.isStarted);
+  const startGame = useSelector((state) => state.game.startGame);
 
   const calculation = generateExpression;
 
-  if (!gameStart) {
+  if (!startGame) {
     return (
       <>
         {console.log(calculation)}

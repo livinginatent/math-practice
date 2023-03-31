@@ -6,11 +6,11 @@ import MainInput from "../components/MainInput";
 import { generateNumbersAndResults } from "../MainArithmetics";
 
 const MultiplicationMain = () => {
-  const gameStart = useSelector((state) => state.game.isStarted);
+  const startGame = useSelector((state) => state.game.startGame);
   const operation = "*";
   const calculation = generateNumbersAndResults().multiplication;
 
-  if (!gameStart) {
+  if (!startGame) {
     return (
       <>
         <Container

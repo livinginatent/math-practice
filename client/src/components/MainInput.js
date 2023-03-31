@@ -1,10 +1,11 @@
 import { Divider, List, TextField, Typography } from "@mui/material";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 import GameInfo from "./GameInfo";
 import { useSelector, useDispatch } from "react-redux";
@@ -37,12 +38,14 @@ const MainInput = ({ operation, calculation }) => {
   const points = useSelector((state) => state.game.points);
   const lives = useSelector((state) => state.game.lives);
   const gameOver = useSelector((state) => state.game.isFinished);
-  const gameStart = useSelector((state) => state.game.isStarted);
+  const gameStart = useSelector((state) => state.game.startGame);
 
   const user = JSON.parse(localStorage.getItem("user"));
   const token = user.token;
 
-  let highestScore = points;
+  let finalScore = points;
+
+  const navigate = useNavigate();
 
   // FIX THE UNDEFINED ISSUE
 
@@ -52,14 +55,14 @@ const MainInput = ({ operation, calculation }) => {
 
   useEffect(() => {
     if (gameOver) {
-      updateScore(highestScore, operation, token);
+      updateScore(finalScore, operation, token);
     }
   }, [gameOver]);
 
   useEffect(() => {
-    if (correctValue && streak === 4 && lives<4) {
+    if (correctValue && streak === 4 && lives < 4) {
       dispatch(earnLife());
-      setStreak(0)
+      setStreak(0);
     }
   }, [streak]);
 
@@ -90,7 +93,7 @@ const MainInput = ({ operation, calculation }) => {
     if (lives === 0 || seconds === 0) {
       dispatch(isFinished());
     }
-  }, [dispatch, lives, seconds]);
+  }, [lives, seconds]);
 
   useEffect(() => {
     let interval;
@@ -136,13 +139,18 @@ const MainInput = ({ operation, calculation }) => {
     return correctValue ? "Try new one" : "Submit";
   };
 
+  const goHome = () => {
+    navigate("/");
+    dispatch(restart());
+  };
+
   return (
     <>
       <Navbar />
 
       {seconds && lives > 0 ? (
         <>
-          <GameInfo></GameInfo>
+          <GameInfo />
           <Container component="main" maxWidth="xs">
             <Box
               sx={{
@@ -152,7 +160,6 @@ const MainInput = ({ operation, calculation }) => {
                 alignItems: "center",
               }}
             >
-              
               <Typography>
                 Fill in the box to make the equation true.
               </Typography>
@@ -215,6 +222,14 @@ const MainInput = ({ operation, calculation }) => {
               onClick={newChallenge}
             >
               New Challenge
+            </Button>
+            <Button
+              sx={{ marginTop: 2 }}
+              variant="contained"
+              size="large"
+              onClick={goHome}
+            >
+              Home Page
             </Button>
           </List>
         </>

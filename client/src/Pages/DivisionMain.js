@@ -6,11 +6,11 @@ import { Container } from "@mui/material";
 import Beginning from "../components/Beginning";
 
 const DivisionMain = () => {
-  const gameStart = useSelector((state) => state.game.isStarted);
+  const startGame = useSelector((state) => state.game.startGame);
   const operation = "/";
   const calculation = generateNumbersAndResults().division;
 
-  if (!gameStart) {
+  if (!startGame) {
     return (
       <>
         <Container

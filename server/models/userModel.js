@@ -16,11 +16,19 @@ const userSchema = mongoose.Schema(
       type: String,
       required: [true, "Please add your password"],
     },
+    userRank:{
+      type: Number,
+      default:0
+    },
     userStats: 
       {
         totalGamesPlayed: {
           type: Number,
           default: 0,
+        },
+        totalScore:{
+          type:Number,
+          default:0
         },
         totalAdditionPlayed: {
           type: Number,

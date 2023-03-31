@@ -18,7 +18,7 @@ import {
   loseTime,
   restart,
 } from "../features/gameSlice";
-
+import { useNavigate } from "react-router";
 
 const correctAnswer = <Typography>Correct!</Typography>;
 const wrongAnswer = <Typography>Wrong!</Typography>;
@@ -41,31 +41,32 @@ const MainOrderedInput = ({ calculation }) => {
 
   const user = JSON.parse(localStorage.getItem("user"));
   const token = user.token;
-  const operation = 'ordered'
-  let highestScore = points;
+  const operation = "ordered";
+  let finalScore = points;
+
+  const navigate = useNavigate();
 
   // FIX THE UNDEFINED ISSUE
 
   // FIX THE UNDEFINED ISSUE
 
   // FIX THE UNDEFINED ISSUE
-
-  useEffect(() => {
-    if (gameOver) {
-      updateScore(highestScore, operation, token);
-    }
-
-  }, [gameOver]);
 
  useEffect(() => {
-   if (correctValue && streak === 4 && lives < 4) {
-     dispatch(earnLife());
-     setStreak(0);
+   if (gameOver) {
+     updateScore(finalScore, operation, token);
    }
- }, [streak]);
+ }, [gameOver]);
 
   useEffect(() => {
-    console.log(calculatedNums.expression)
+    if (correctValue && streak === 4 && lives < 4) {
+      dispatch(earnLife());
+      setStreak(0);
+    }
+  }, [streak]);
+
+  useEffect(() => {
+    console.log(calculatedNums.expression);
     setCalculatedNums(calculation());
     setGenerateNewNumbers(false);
     setCorrectValue(false);
@@ -138,6 +139,11 @@ const MainOrderedInput = ({ calculation }) => {
     return correctValue ? "Try new one" : "Submit";
   };
 
+   const goHome = () => {
+     navigate("/");
+     dispatch(restart());
+   };
+
   return (
     <>
       <Navbar />
@@ -159,8 +165,7 @@ const MainOrderedInput = ({ calculation }) => {
               </Typography>
 
               <Typography fontSize={28}>
-                {`${calculatedNums.expression}`}
-                =
+                {`${calculatedNums.expression}`}=
               </Typography>
 
               <TextField
@@ -214,6 +219,14 @@ const MainOrderedInput = ({ calculation }) => {
               onClick={newChallenge}
             >
               New Challenge
+            </Button>
+            <Button
+              sx={{ marginTop: 2 }}
+              variant="contained"
+              size="large"
+              onClick={goHome}
+            >
+              Home Page
             </Button>
           </List>
         </>

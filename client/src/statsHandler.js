@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const updateScore = async (highestScore, operation, token) => {
+export const updateScore = async (finalScore, operation, token) => {
   try {
     const config = {
       headers: {
@@ -8,7 +8,7 @@ export const updateScore = async (highestScore, operation, token) => {
         Authorization: `Bearer ${token}`,
       },
     };
-    const body = JSON.stringify({ highestScore,operation });
+    const body = JSON.stringify({ finalScore, operation });
 
     const res = await axios.patch(
       "http://localhost:5000/users/updateuserstats",
@@ -24,7 +24,7 @@ export const updateScore = async (highestScore, operation, token) => {
       console.log(res.data.userStats);
     } else if (operation === "/") {
       console.log(res.data.userStats);
-    } else(console.log(res.data.userStats))
+    } else console.log(res.data.userStats);
     return res.data;
   } catch (err) {
     console.error(err);

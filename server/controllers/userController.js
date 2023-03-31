@@ -31,7 +31,7 @@ export const registerUser = asyncHandler(async (req, res) => {
   const user = await User.create({
     username,
     email,
-    userStats: { totalGamesPlayed: 0, highestScore: 0 },
+    userStats: { totalGamesPlayed: 0, finalScore: 0 },
     password: hashedPassword,
   });
 
@@ -153,33 +153,38 @@ export const updateUserStats = asyncHandler(async (req, res) => {
 
   if (operation === "+") {
     user.userStats.totalAdditionPlayed++;
+    user.userStats.totalScore += req.body.finalScore
     user.userStats.highestAdditionScore = Math.max(
       user.userStats.highestAdditionScore,
-      req.body.highestScore
+      req.body.finalScore
     );
   } else if (operation === "-") {
     user.userStats.totalSubtractionPlayed++;
+    user.userStats.totalScore += req.body.finalScore;
     user.userStats.highestSubtractionScore = Math.max(
       user.userStats.highestSubtractionScore,
-      req.body.highestScore
+      req.body.finalScore
     );
   } else if (operation === "*") {
     user.userStats.totalMultiplicationPlayed++;
+    user.userStats.totalScore += req.body.finalScore;
     user.userStats.highestMultiplicationScore = Math.max(
       user.userStats.highestMultiplicationScore,
-      req.body.highestScore
+      req.body.finalScore
     );
   } else if (operation === "/") {
     user.userStats.totalDivisionPlayed++;
+    user.userStats.totalScore += req.body.finalScore;
     user.userStats.highestDivisionScore = Math.max(
       user.userStats.highestDivisionScore,
-      req.body.highestScore
+      req.body.finalScore
     );
   } else {
     user.userStats.totalOrderedPlayed++;
+    user.userStats.totalScore += req.body.finalScore;
     user.userStats.highestOrderedScore = Math.max(
       user.userStats.highestOrderedScore,
-      req.body.highestScore
+      req.body.finalScore
     );
   }
 
