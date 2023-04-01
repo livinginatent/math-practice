@@ -34,7 +34,15 @@ const userSchema = mongoose.Schema(
           type: Number,
           default: 0,
         },
+        totalAdditionScore: {
+          type: Number,
+          default: 0,
+        },
         totalSubtractionPlayed: {
+          type: Number,
+          default: 0,
+        },
+        totalSubtractionScore: {
           type: Number,
           default: 0,
         },
@@ -42,11 +50,23 @@ const userSchema = mongoose.Schema(
           type: Number,
           default: 0,
         },
+        totalMultiplicationScore: {
+          type: Number,
+          default: 0,
+        },
         totalDivisionPlayed: {
           type: Number,
           default: 0,
         },
+        totalDivisionScore: {
+          type: Number,
+          default: 0,
+        },
         totalOrderedPlayed: {
+          type: Number,
+          default: 0,
+        },
+        totalOrderedScore: {
           type: Number,
           default: 0,
         },
