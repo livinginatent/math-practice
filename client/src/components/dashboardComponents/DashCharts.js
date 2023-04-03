@@ -6,12 +6,13 @@ import { useState } from "react";
 
 import Chart from "chart.js/auto";
 import { Box } from "@mui/system";
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 Chart.register();
 
 function DashCharts() {
   const [totalGamesPlayed, setTotalGamesPlayed] = useState({});
   const [gameScore, setGameScore] = useState({});
+  const [totalScore, setTotalScore] = useState({});
   useEffect(() => {
     const getUserStats = async () => {
       try {
@@ -50,7 +51,38 @@ function DashCharts() {
                 "rgba(255, 206, 86, 0.6)",
                 "rgba(75, 192, 192, 0.6)",
                 "rgba(153, 102, 255, 0.6)",
-                "rgba(160, 112, 255, 0.6)",
+                "rgba(170, 120, 255, 0.6)",
+              ],
+            },
+          ],
+        });
+        setTotalScore({
+          labels: [
+            "Total Score",
+            "Addition Total Score",
+            "Subtraction Total Score",
+            "Multiplication Total Score",
+            "Division Total Score",
+            "Ordered Operations Total Score",
+          ],
+          datasets: [
+            {
+              label: "Total Scores",
+              data: [
+                res.data.totalScore,
+                res.data.totalAdditionScore,
+                res.data.totalSubtractionScore,
+                res.data.totalMultiplicationScore,
+                res.data.totalDivisionScore,
+                res.data.totalOrderedScore,
+              ],
+              backgroundColor: [
+                "rgba(255, 99, 132, 0.6)",
+                "rgba(54, 162, 235, 0.6)",
+                "rgba(255, 206, 86, 0.6)",
+                "rgba(75, 192, 192, 0.6)",
+                "rgba(153, 102, 255, 0.6)",
+                "rgba(170, 120, 255, 0.6)",
               ],
             },
           ],
@@ -96,7 +128,7 @@ function DashCharts() {
       <Box sx={{ marginTop: 6 }}>
         <Grid
           container
-         /*  display={"flex"}
+          /*  display={"flex"}
           flexDirection="row" */
           justifyContent={"space-evenly"}
         >
@@ -139,7 +171,28 @@ function DashCharts() {
                 }}
               />
             ) : (
-              <div />
+              <Typography>Can't reach user data at the moment</Typography>
+            )}
+          </Grid>
+          <Grid>
+            {totalScore.labels ? (
+              <Bar
+                style={{ width: 1200 }}
+                data={totalScore}
+                options={{
+                  title: {
+                    display: true,
+                    text: "User Stats",
+                    fontSize: 25,
+                  },
+                  legend: {
+                    display: true,
+                    position: "right",
+                  },
+                }}
+              />
+            ) : (
+              <Typography>Can't reach user data at the moment</Typography>
             )}
           </Grid>
         </Grid>
